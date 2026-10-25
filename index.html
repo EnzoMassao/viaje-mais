@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Viaje Mais · Quarta Colônia</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FBFCFE; --surf:#FFFFFF; --ink:#0F1C2E; --muted:#5F6B7C; --line:#E4EAF2; --acc:#2F7D7A; --mist:#E3EEFC; --mint:#DFF4EA; --lav:#ECE8FA;
+  color-scheme:light;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 Inter,system-ui,sans-serif}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
+h1,h2,h3,.logo,.big{font-family:"Space Grotesk",system-ui,sans-serif;font-weight:600;margin:0;letter-spacing:-.02em;line-height:1.08}
+.mono{font-family:"JetBrains Mono",ui-monospace,monospace;font-weight:500}
+.muted{color:var(--muted)}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+[hidden]{display:none!important}
+
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--bg);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;gap:20px;height:60px}
+.logo{display:inline-flex;align-items:center;gap:9px;font-size:1.15rem;color:var(--ink);text-decoration:none;background:none;border:0;cursor:pointer;padding:0}
+.logo svg{width:22px;height:22px}
+nav{display:flex;gap:2px;flex:1}
+.tab{border:0;background:none;color:var(--muted);font:500 .92rem Inter,sans-serif;padding:8px 12px;border-radius:8px;cursor:pointer}
+.tab:hover{color:var(--ink)}
+.tab[aria-current="page"]{color:var(--ink);background:var(--line)}
+.btn{border:1px solid var(--ink);background:var(--ink);color:var(--bg);font:500 .95rem Inter,sans-serif;padding:12px 22px;border-radius:99px;cursor:pointer}
+.btn.sm{padding:7px 14px;font-size:.9rem}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+
+.view{padding:48px 0 64px}
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center;padding:44px 40px;border-radius:28px;position:relative;overflow:hidden;
+  background:radial-gradient(900px 400px at 85% 0%,var(--lav),transparent 60%),radial-gradient(700px 400px at 0% 100%,var(--mint),transparent 60%),linear-gradient(180deg,var(--mist),#fff)}
+.hero h1{font-size:clamp(2.4rem,5.6vw,4.2rem);margin-bottom:18px}
+.hero p{color:var(--muted);max-width:44ch;margin:0 0 26px;font-size:1.08rem}
+.cta{display:flex;gap:10px;flex-wrap:wrap}
+.wid{background:var(--surf);border:1px solid var(--line);border-radius:20px;padding:24px}
+.wid .t{font-size:2.4rem;margin:4px 0 14px}
+.wid input[type=range]{width:100%;accent-color:var(--ink)}
+.ticks{display:flex;justify-content:space-between;color:var(--muted);font-size:.8rem;margin-top:4px}
+.res{display:flex;align-items:baseline;gap:14px;border-top:1px solid var(--line);margin-top:18px;padding-top:16px}
+.big{font-size:2.6rem}
+h2{font-size:clamp(1.5rem,3.4vw,2.1rem);margin-bottom:8px}
+.sec{margin-top:64px}
+.cities{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.pill{border:1px solid var(--line);background:var(--surf);color:var(--ink);font:500 .9rem Inter,sans-serif;padding:8px 14px;border-radius:99px;cursor:pointer}
+.pill:hover{border-color:var(--ink)}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0;margin-top:18px;border-top:1px solid var(--line)}
+.step{padding:20px 20px 0 0}
+.step .mono{color:var(--acc)}
+.step b{display:block;font:600 1.15rem "Space Grotesk",sans-serif;margin:4px 0}
+
+.layout{display:grid;grid-template-columns:230px 1fr;gap:36px;margin-top:22px}
+.filters{display:grid;gap:14px;align-content:start}
+label{display:block;font-size:.82rem;font-weight:500;color:var(--muted);margin:0 0 5px}
+select,input[type=text],input[type=email],input[type=password],input[type=time],input[type=number]{width:100%;padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:var(--surf);color:var(--ink);font:1rem Inter,sans-serif}
+.cnt{color:var(--muted);font-size:.9rem;margin-bottom:10px}
+.row{display:grid;grid-template-columns:56px 120px 1fr 70px 100px;gap:14px;align-items:center;width:100%;text-align:left;
+  background:var(--surf);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:8px;cursor:pointer;font:inherit}
+.row:hover{border-color:var(--ink)}
+.nm b{display:block;font-weight:600}
+.nm small{color:var(--muted)}
+.pct{font:600 1.15rem "Space Grotesk",sans-serif;text-align:right}
+.vg{color:var(--muted);font-size:.9rem;display:flex;align-items:center;gap:7px;justify-content:flex-end}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--acc);display:inline-block}
+.empty{color:var(--muted);padding:24px 0}
+
+.card{background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:10px;display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.form{display:grid;gap:14px;max-width:520px;margin-top:20px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ok{color:var(--acc);font-weight:600;margin-top:6px}
+
+footer{border-top:1px solid var(--line);padding:26px 0 44px;color:var(--muted);font-size:.88rem}
+
+dialog{border:1px solid var(--line);border-radius:18px;padding:24px;max-width:440px;width:calc(100% - 32px);background:var(--surf);color:var(--ink)}
+dialog::backdrop{background:rgba(5,8,12,.55)}
+dialog h3{font-size:1.5rem;margin:6px 0 8px}
+dialog form,.dbody{display:grid;gap:12px}
+.tabs2{display:flex;gap:4px;background:var(--bg);padding:4px;border-radius:10px;margin-bottom:6px}
+.tabs2 button{flex:1;border:0;background:transparent;color:var(--muted);font:500 .92rem Inter,sans-serif;padding:9px;border-radius:7px;cursor:pointer}
+.tabs2 button[aria-selected="true"]{background:var(--ink);color:var(--bg)}
+
+.hero>div{position:relative;z-index:1}
+.scene{position:absolute;left:0;right:0;bottom:0;width:100%;height:62%;z-index:0}
+.chipk{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.85);border:1px solid var(--line);padding:6px 14px;border-radius:99px;font-size:.85rem;font-weight:500;margin-bottom:16px}
+.wid{backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:rgba(255,255,255,.8);box-shadow:0 20px 50px rgba(15,28,46,.12)}
+.btn{transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(15,28,46,.18)}
+.row{border-radius:16px;transition:transform .15s,box-shadow .15s,border-color .15s}
+.row:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(15,28,46,.08)}
+.thumb{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;color:var(--ink)}
+.thumb svg{width:26px;height:26px}
+.t-Gastronomia{background:var(--mint)}.t-Natureza{background:var(--mist)}.t-Cultura{background:var(--lav)}.t-Vinho{background:#F8E6EE}
+.pill:hover{background:var(--mist);border-color:var(--mist)}
+.steps{gap:14px;border-top:0}
+.step{background:var(--surf);border:1px solid var(--line);border-radius:20px;padding:22px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media (max-width:800px){
+  .hero,.layout{grid-template-columns:1fr}
+  .hero{padding:28px 20px}
+  .thumb{display:none}
+  .bar{flex-wrap:wrap;height:auto;padding:10px 0;gap:8px}
+  nav{order:3;width:100%;flex:none;overflow-x:auto}
+  .row{grid-template-columns:1fr auto;gap:6px 12px}
+  .row .mono{grid-column:1/3}
+  .vg{justify-content:flex-start}
+  .two{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap bar">
+    <button class="logo" id="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Viaje Mais</button>
+    <nav aria-label="Principal">
+      <button class="tab" data-v="inicio">Início</button>
+      <button class="tab" data-v="ofertas">Ofertas</button>
+      <button class="tab" data-v="reservas" id="tres">Reservas</button>
+      <button class="tab" data-v="parceiros">Parceiros</button>
+    </nav>
+    <button class="btn sm" id="lbtn">Entrar</button>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="view" id="v-inicio">
+    <div class="hero">
+      <svg class="scene" viewBox="0 0 800 300" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><circle cx="610" cy="120" r="74" fill="#FFF1C2" opacity=".4"/><circle cx="610" cy="120" r="46" fill="#FFF1C2"/><path d="M0 210 C120 150 220 160 330 200 C440 240 540 150 660 160 C730 166 770 190 800 200 L800 300 L0 300Z" fill="#CFE6F7"/><path d="M0 245 C140 195 260 205 380 240 C500 275 620 205 800 235 L800 300 L0 300Z" fill="#BFE5D6"/><path d="M0 280 C180 245 340 260 520 280 C640 292 740 270 800 262 L800 300 L0 300Z" fill="#A8D8C4"/></svg>
+      <div>
+        <span class="chipk"><i class="dot"></i>Quarta Colônia · RS</span>
+        <h1>Chegue na primeira hora.</h1>
+        <p>Atrações da Quarta Colônia, no Rio Grande do Sul, dão desconto no primeiro horário do dia. Você aproveita o lugar tranquilo, e elas enchem a hora mais vazia.</p>
+        <div class="cta"><button class="btn" data-go="ofertas">Ver ofertas</button><button class="btn ghost" data-go="parceiros">Sou parceiro</button></div>
+      </div>
+      <div class="wid" aria-live="polite">
+        <div class="muted">Se você chegar às</div>
+        <div class="mono t" id="wt">07:30</div>
+        <input type="range" id="wr" min="360" max="720" step="15" value="450" aria-label="Horário de chegada">
+        <div class="ticks mono"><span>06h</span><span>08h</span><span>10h</span><span>12h</span></div>
+        <div class="res"><span class="big" id="wp">-30%</span><span class="muted" id="wm"></span></div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <h2>Nove cidades para explorar</h2>
+      <p class="muted">Escolha uma e veja as ofertas.</p>
+      <div class="cities" id="cities"></div>
+    </div>
+
+    <div class="sec">
+      <h2>Como funciona</h2>
+      <div class="steps">
+        <div class="step"><span class="mono">01</span><b>A atração publica</b><span class="muted">Define o horário vazio, o desconto e as vagas.</span></div>
+        <div class="step"><span class="mono">02</span><b>Você reserva</b><span class="muted">Escolhe a oferta e garante a vaga pelo site.</span></div>
+        <div class="step"><span class="mono">03</span><b>Você chega cedo</b><span class="muted">Mostra o código na entrada e recebe o desconto.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" id="v-ofertas" hidden>
+    <h2>Ofertas da primeira hora</h2>
+    <p class="muted">Dados de exemplo. Toque numa oferta para ver os detalhes e reservar.</p>
+    <div class="layout">
+      <div class="filters">
+        <div><label for="fc">Cidade</label><select id="fc"></select></div>
+        <div><label for="fk">Tipo</label><select id="fk"></select></div>
+        <div><label for="fh">Chegada</label><select id="fh"><option value="9999">Qualquer horário</option><option value="480">Até 08:00</option><option value="540">Até 09:00</option><option value="600">Até 10:00</option></select></div>
+        <div><label for="fo">Ordenar por</label><select id="fo"><option value="d">Maior desconto</option><option value="s">Mais cedo</option></select></div>
+        <button class="btn ghost sm" id="fclear">Limpar filtros</button>
+      </div>
+      <div><div class="cnt" id="cnt"></div><div id="res"></div></div>
+    </div>
+  </section>
+
+  <section class="view" id="v-reservas" hidden>
+    <h2>Minhas reservas</h2>
+    <div id="rlist" style="margin-top:20px"></div>
+  </section>
+
+  <section class="view" id="v-parceiros" hidden>
+    <h2>Publique uma oferta</h2>
+    <p class="muted">Tem uma atração na região? Cadastre o seu horário mais vazio. A oferta aparece na lista na hora.</p>
+    <form class="form" id="pf">
+      <div><label for="pn">Nome da atração</label><input type="text" id="pn" required></div>
+      <div class="two">
+        <div><label for="pc">Cidade</label><select id="pc"></select></div>
+        <div><label for="pk">Tipo</label><select id="pk"></select></div>
+      </div>
+      <div class="two">
+        <div><label for="pt">Início da primeira hora</label><input type="time" id="pt" value="08:00" required></div>
+        <div><label for="pd">Desconto (%)</label><input type="number" id="pd" min="5" max="60" value="20" required></div>
+      </div>
+      <div class="two">
+        <div><label for="pv">Vagas</label><input type="number" id="pv" min="1" max="100" value="5" required></div>
+        <div><label for="pe">E-mail de contato</label><input type="email" id="pe" required></div>
+      </div>
+      <div><label for="px">Descrição curta</label><input type="text" id="px" placeholder="O que o visitante vai viver"></div>
+      <div><button class="btn" type="submit">Publicar oferta</button><div class="ok" id="pm" role="status"></div></div>
+    </form>
+  </section>
+</main>
+
+<footer><div class="wrap">Viaje Mais · protótipo de estudo. Nomes, preços e vagas são fictícios e nada fica salvo ao fechar a página.</div></footer>
+
+<dialog id="dd"><div class="dbody" id="ddb"></div></dialog>
+
+<dialog id="lg">
+  <h3>Bem-vindo</h3>
+  <div class="tabs2" role="tablist"><button role="tab" id="lt-e" aria-selected="true">Entrar</button><button role="tab" id="lt-c" aria-selected="false">Criar conta</button></div>
+  <form id="lf">
+    <div id="lnw" hidden><label for="ln">Nome</label><input type="text" id="ln"></div>
+    <div><label for="le">E-mail</label><input type="email" id="le" placeholder="voce@email.com" required></div>
+    <div><label for="ls">Senha</label><input type="password" id="ls" placeholder="Digite sua senha" required></div>
+    <button class="btn" type="submit" id="lb">Entrar</button>
+    <button class="btn ghost" type="button" id="lx">Fechar</button>
+    <div class="ok" id="lm" role="status"></div>
+  </form>
+</dialog>
+
+<script>
+var $=function(i){return document.getElementById(i)};
+function h(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e}
+function f(m){m=m%1440;var a=Math.floor(m/60),b=m%60;return (a<10?"0":"")+a+":"+(b<10?"0":"")+b}
+var CID=["Agudo","Dona Francisca","Faxinal do Soturno","Ivorá","Nova Palma","Pinhal Grande","Restinga Sech","São João do Polêsine","Silveira Martins"];
+var CAT=["Gastronomia","Natureza","Cultura","Vinho"];
+var uid=6,user=null,R=[];
+var O=[
+ {id:1,n:"Café colonial da vovó",c:"Silveira Martins",k:"Gastronomia",s:480,d:30,v:6,t:"Mesa farta com pães, cucas e queijos da região, servida na primeira hora."},
+ {id:2,n:"Degustação na vinícola",c:"Silveira Martins",k:"Vinho",s:540,d:25,v:4,t:"Prova guiada de vinhos com a vinícola ainda vazia."},
+ {id:3,n:"Trilha até o mirante",c:"Ivorá",k:"Natureza",s:450,d:20,v:10,t:"Caminhada leve com vista do vale ao amanhecer."},
+ {id:4,n:"Visita à queijaria",c:"Nova Palma",k:"Gastronomia",s:480,d:20,v:5,t:"Veja como o queijo é feito e prove antes da correria."},
+ {id:5,n:"Passeio aos fósseis",c:"São João do Polêsine",k:"Natureza",s:480,d:35,v:8,t:"Visita guiada a um sítio de fósseis, com grupo pequeno."},
+ {id:6,n:"Museu da imigração",c:"Faxinal do Soturno",k:"Cultura",s:540,d:15,v:12,t:"Histórias das famílias que chegaram à região, sem fila."}
+];
+function fill(s,arr,first){s.innerHTML="";if(first){var o=h("option","",first);o.value="*";s.appendChild(o)}arr.forEach(function(x){var o=h("option","",x);o.value=x;s.appendChild(o)})}
+fill($("fc"),CID,"Todas as cidades");fill($("fk"),CAT,"Todos os tipos");fill($("pc"),CID);fill($("pk"),CAT);
+
+/* navegação */
+var VIEWS=["inicio","ofertas","reservas","parceiros"];
+function go(v){
+  VIEWS.forEach(function(x){$("v-"+x).hidden=x!==v});
+  document.querySelectorAll(".tab").forEach(function(b){if(b.dataset.v===v)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current")});
+  if(v==="reservas")rlist();
+  window.scrollTo(0,0);
+}
+document.querySelectorAll(".tab").forEach(function(b){b.onclick=function(){go(b.dataset.v)}});
+document.querySelectorAll("[data-go]").forEach(function(b){b.onclick=function(){go(b.dataset.go)}});
+$("home").onclick=function(){go("inicio")};
+
+/* início: simulador */
+function sim(){
+  var m=+$("wr").value;
+  $("wt").textContent=f(m);
+  var p=Math.max(0,Math.round(35*(600-m)/180/5)*5);
+  $("wp").textContent=p>0?"-"+p+"%":"0%";
+  $("wm").textContent=p>0?"de desconto, em uma oferta de exemplo.":"Sem desconto neste horário. Chegue mais cedo.";
+}
+$("wr").oninput=sim;sim();
+CID.forEach(function(c){var b=h("button","pill",c);b.onclick=function(){$("fc").value=c;lista();go("ofertas")};$("cities").appendChild(b)});
+
+/* ofertas */
+var IC={Gastronomia:'<path d="M6 10h12v4a6 6 0 0 1-12 0z"/><path d="M18 11h1.5a2.5 2.5 0 0 1 0 5H18M9 3v3M13 3v3"/>',Natureza:'<path d="M3 19l6-10 4 6 2-3 6 7z"/>',Cultura:'<path d="M3 10l9-6 9 6M5 10v8M10 10v8M14 10v8M19 10v8M3 20h18"/>',Vinho:'<path d="M8 3h8l-.5 6a3.5 3.5 0 0 1-7 0zM12 12.5V20M8.5 20h7"/>'};
+function thumb(k){var d=h("span","thumb t-"+k);d.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+(IC[k]||IC.Natureza)+'</svg>';return d}
+function lista(){
+  var box=$("res");box.innerHTML="";
+  var a=O.filter(function(o){return ($("fc").value==="*"||o.c===$("fc").value)&&($("fk").value==="*"||o.k===$("fk").value)&&o.s<=+$("fh").value});
+  a.sort($("fo").value==="d"?function(x,y){return y.d-x.d}:function(x,y){return x.s-y.s});
+  $("cnt").textContent=a.length+(a.length===1?" oferta":" ofertas");
+  if(!a.length){box.appendChild(h("p","empty","Nenhuma oferta com esses filtros. Limpe os filtros para ver todas."));return}
+  a.forEach(function(o){
+    var r=h("button","row");
+    r.appendChild(thumb(o.k));
+    r.appendChild(h("span","mono",f(o.s)+"–"+f(o.s+60)));
+    var m=h("span","nm");m.appendChild(h("b","",o.n));m.appendChild(h("small","",o.c+" · "+o.k));r.appendChild(m);
+    r.appendChild(h("span","pct","-"+o.d+"%"));
+    var v=h("span","vg");v.appendChild(h("i","dot"));v.appendChild(document.createTextNode(o.v>0?o.v+" vagas":"Esgotado"));r.appendChild(v);
+    r.onclick=function(){abre(o)};
+    box.appendChild(r);
+  });
+}
+["fc","fk","fh","fo"].forEach(function(i){$(i).onchange=lista});
+$("fclear").onclick=function(){$("fc").value="*";$("fk").value="*";$("fh").value="9999";$("fo").value="d";lista()};
+
+/* detalhe e reserva */
+function abre(o){
+  var b=$("ddb");b.innerHTML="";
+  b.appendChild(h("div","mono muted",f(o.s)+"–"+f(o.s+60)+" · "+o.c));
+  b.appendChild(h("h3","",o.n));
+  b.appendChild(h("p","muted",o.t));
+  b.appendChild(h("div","big","-"+o.d+"% na primeira hora"));
+  var fm=h("form");
+  if(o.v<1){fm.appendChild(h("p","empty","Vagas esgotadas."))}
+  else{
+    var d1=h("div");d1.appendChild(h("label","","Seu nome")).htmlFor="rn";
+    var nm=h("input");nm.type="text";nm.id="rn";nm.required=true;nm.value=user||"";d1.appendChild(nm);fm.appendChild(d1);
+    var d2=h("div");d2.appendChild(h("label","","Pessoas")).htmlFor="rp";
+    var sp=h("select");sp.id="rp";for(var i=1;i<=Math.min(4,o.v);i++){var op=h("option","",i);op.value=i;sp.appendChild(op)}
+    d2.appendChild(sp);fm.appendChild(d2);
+    var go1=h("button","btn","Reservar");go1.type="submit";fm.appendChild(go1);
+    fm.onsubmit=function(e){
+      e.preventDefault();
+      var nome=nm.value.trim(),p=+sp.value;
+      if(!nome||p>o.v)return;
+      o.v-=p;
+      var cod="VM-"+(1000+Math.floor(Math.random()*9000));
+      R.push({cod:cod,o:o,nome:nome,p:p});
+      b.innerHTML="";
+      b.appendChild(h("h3","","Vaga garantida"));
+      b.appendChild(h("p","muted",nome+", mostre este código na entrada:"));
+      b.appendChild(h("div","big mono",cod));
+      var vb=h("button","btn","Ver minhas reservas");vb.onclick=function(){$("dd").close();go("reservas")};b.appendChild(vb);
+      lista();tres();
+    };
+  }
+  var cl=h("button","btn ghost","Fechar");cl.type="button";cl.onclick=function(){$("dd").close()};fm.appendChild(cl);
+  b.appendChild(fm);
+  $("dd").showModal();
+}
+function tres(){$("tres").textContent=R.length?"Reservas ("+R.length+")":"Reservas"}
+function rlist(){
+  var box=$("rlist");box.innerHTML="";
+  if(!R.length){
+    box.appendChild(h("p","empty","Você ainda não tem reservas."));
+    var b=h("button","btn","Ver ofertas");b.onclick=function(){go("ofertas")};box.appendChild(b);return;
+  }
+  R.forEach(function(r,i){
+    var c=h("div","card");
+    var l=h("div");l.appendChild(h("b","",r.o.n));
+    l.appendChild(h("div","muted",r.o.c+" · "+f(r.o.s)+"–"+f(r.o.s+60)+" · "+r.p+(r.p>1?" pessoas":" pessoa")+" · -"+r.o.d+"%"));
+    c.appendChild(l);
+    c.appendChild(h("span","mono",r.cod));
+    var x=h("button","btn ghost sm","Cancelar");
+    x.onclick=function(){r.o.v+=r.p;R.splice(i,1);tres();lista();rlist()};
+    c.appendChild(x);box.appendChild(c);
+  });
+}
+
+/* parceiros */
+$("pf").onsubmit=function(e){
+  e.preventDefault();
+  var t=$("pt").value.split(":");
+  O.push({id:++uid,n:$("pn").value.trim(),c:$("pc").value,k:$("pk").value,s:(+t[0])*60+(+t[1]),d:+$("pd").value,v:+$("pv").value,t:$("px").value.trim()||"Oferta da primeira hora."});
+  $("pm").textContent="Oferta publicada. Ela já aparece em Ofertas.";
+  e.target.reset();lista();
+};
+
+/* conta */
+var modo="e";
+function aba(k){
+  modo=k;
+  $("lt-e").setAttribute("aria-selected",k==="e");$("lt-c").setAttribute("aria-selected",k==="c");
+  $("lnw").hidden=k==="e";$("lb").textContent=k==="e"?"Entrar":"Criar conta";$("lm").textContent="";
+}
+$("lbtn").onclick=function(){
+  if(user){user=null;$("lbtn").textContent="Entrar";return}
+  aba("e");$("lg").showModal();
+};
+$("lt-e").onclick=function(){aba("e")};$("lt-c").onclick=function(){aba("c")};
+$("lx").onclick=function(){$("lg").close()};
+$("lf").onsubmit=function(e){
+  e.preventDefault();
+  var em=$("le").value.trim();
+  user=($("ln").value.trim()||em.split("@")[0]);
+  $("lbtn").textContent="Sair ("+user+")";
+  $("lg").close();e.target.reset();
+};
+
+lista();go("inicio");
+</script>
+</body>
+</html>
